@@ -2,9 +2,10 @@
 
 <img src="assets/my_logo.png" alt="AlienSight Logo" width="180"/>
 
-# AlienSight UAV-Based Human Detection & Geolocation for Search and Rescue
+# AlienSight
+### Lightweight UAV-Based Human Detection & Geolocation for Search and Rescue
 
-**Real-time onboard AI system that detects humans from drone footage and converts bounding-box pixels into GPS coordinates with zero extra sensors.**
+**Lightweight end-to-end UAV-SAR system for real-time aerial human detection and monocular GPS geolocation using standard onboard telemetry only.**
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
 [![YOLOv8](https://img.shields.io/badge/YOLOv8-Ultralytics-00FFFF.svg)](https://ultralytics.com)
@@ -54,9 +55,9 @@ Full end-to-end demo: live detection, GPS estimation, and automated email alert.
 Search and rescue (SAR) missions are time-critical. AlienSight is a fully autonomous UAV pipeline that:
 
 - **Detects humans** in aerial footage using a two-stage fine-tuned YOLOv8n model
-- **Geolocates each detection** by projecting bounding-box pixels into real-world GPS coordinates using only onboard telemetry no IMU, no depth sensor, no stereo camera
+- **Geolocates each detection** by projecting bounding-box pixels into real-world GPS coordinates using only standard UAV telemetry without LiDAR, stereo vision, or external positioning hardware
 - **Alerts the rescue team** automatically via email with GPS coordinates, a Google Maps link, and an annotated detection snapshot
-- **Runs on the edge** optimized for NVIDIA Jetson (PyTorch) and Qualcomm RB3 Gen 2 (ONNX/NPU)
+- **Runs on the edge** optimized for Qualcomm RB3 Gen 2 (ONNX/NPU)
 
 
 
@@ -93,7 +94,6 @@ All field experiments were conducted using the **DJI Air 3S** drone.
 | Camera FOV | 84° diagonal · 76° horizontal · 49° vertical |
 | Onboard GPS | Dual-frequency GPS + GLONASS |
 | Telemetry source | DJI SRT file per-frame GPS, altitude, timestamp |
-| Edge computer | NVIDIA Jetson Nano (128-core Maxwell GPU, 4 GB RAM) |
 | Tested altitudes | 15 m and 30 m AGL |
 | Tested camera angles | 45° oblique and 90° nadir |
 
@@ -265,7 +265,7 @@ You can also override paths directly:
 python src/main_offline.py --video path/to/video.MP4 --srt path/to/video.SRT
 ```
 
-### 5. Run Live on Jetson / Edge Device
+### 5. Run Live on Edge Device
 
 ```bash
 python src/main_live.py --config config.yaml
