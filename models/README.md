@@ -8,7 +8,7 @@ This decision is due to:
 
 ### Access Request
 The models may be shared for **research and academic purposes** upon request.  
-Please open an issue on this repository or contact: `your.email@example.com`.
+Please open an issue on this repository or contact: `hamza.ghitri.edu@gmail.com`.
 
 ### Reproducibility
 To ensure transparency, users are encouraged to reproduce the results by following the methodology described in the project documentation and the upcoming research article (link will be provided).
