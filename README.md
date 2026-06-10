@@ -17,7 +17,7 @@
 
 📄 **Preprint Coming Soon** &nbsp;·&nbsp; 📦 [Dataset (Roboflow)](https://universe.roboflow.com/hamzaghitri/uav-sar-human-detection-dataset) &nbsp;·&nbsp; 🚀 [GitHub Repository](https://github.com/7amzaGH/UAV-SAR-Human-Detection-and-Geolocation)
 
-<a href="poster/aliensight_poster.pdf">
+<a href="poster/AlienSight poster.pdf">
   <img src="poster/aliensight_poster.png" alt="AlienSight Research Poster" width="850"/>
 </a>
 
