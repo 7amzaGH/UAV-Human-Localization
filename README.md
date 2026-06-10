@@ -10,20 +10,19 @@
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
 [![YOLOv8](https://img.shields.io/badge/YOLOv8-Ultralytics-00FFFF.svg)](https://ultralytics.com)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Dataset](https://img.shields.io/badge/Dataset-Roboflow-purple.svg)](https://universe.roboflow.com/neptunet-bewas/uav-sar-human-detection-dataset)
-[![Paper](https://img.shields.io/badge/Paper-arXiv-red.svg)](#)
-[![Model](https://img.shields.io/badge/Model-Coming%20Soon-orange.svg)](#)
+[![Dataset](https://img.shields.io/badge/Dataset-Roboflow-purple.svg)](https://universe.roboflow.com/hamzaghitri/uav-sar-human-detection-dataset)
+[![Paper](https://img.shields.io/badge/Paper-Preprint%20Coming%20Soon-red.svg)](#)
 
 <br/>
 
-📄 [Full Technical Paper (arXiv)](#) &nbsp;·&nbsp; 📦 [Dataset (Roboflow)](https://universe.roboflow.com/neptunet-bewas/uav-sar-human-detection-dataset) &nbsp;·&nbsp; 🚀 [GitHub Repository](https://github.com/7amzaGH/UAV-SAR-Human-Detection-and-Geolocation)
+📄 **Preprint Coming Soon** &nbsp;·&nbsp; 📦 [Dataset (Roboflow)](https://universe.roboflow.com/hamzaghitri/uav-sar-human-detection-dataset) &nbsp;·&nbsp; 🚀 [GitHub Repository](https://github.com/7amzaGH/UAV-SAR-Human-Detection-and-Geolocation)
+
+<a href="poster/aliensight_poster.pdf">
+  <img src="poster/aliensight_poster.png" alt="AlienSight Research Poster" width="850"/>
+</a>
 
 Full end-to-end demo: live detection, GPS estimation, and automated email alert.
 <img src="assets/system_demo.gif" alt="AlienSight System Demo" width="750"/>
-
-
-
-
 
 </div>
 
@@ -43,6 +42,7 @@ Full end-to-end demo: live detection, GPS estimation, and automated email alert.
 - [Email Alert](#email-alert)
 - [Quick Start](#quick-start)
 - [Usage in Python](#usage-in-python)
+- [C++ Embedded Runtime Skeleton](#c-embedded-runtime-skeleton)
 - [Repository Structure](#repository-structure)
 - [Team](#team)
 - [Citation](#citation)
@@ -52,7 +52,7 @@ Full end-to-end demo: live detection, GPS estimation, and automated email alert.
 
 ## Overview
 
-Search and rescue (SAR) missions are time-critical. AlienSight is a fully autonomous UAV pipeline that:
+Search and rescue (SAR) missions are time-critical. AlienSight is a lightweight UAV-SAR perception pipeline that:
 
 - **Detects humans** in aerial footage using a two-stage fine-tuned YOLOv8n model
 - **Geolocates each detection** by projecting bounding-box pixels into real-world GPS coordinates using only standard UAV telemetry without LiDAR, stereo vision, or external positioning hardware
@@ -101,10 +101,10 @@ All field experiments were conducted using the **DJI Air 3S** drone.
 
 ## Dataset
 
-The custom evaluation dataset is publicly available on Roboflow : **[UAV-SAR-Human-Detection-Dataset](https://universe.roboflow.com/neptunet-bewas/uav-sar-human-detection-dataset)**
+The custom evaluation dataset is publicly available on Roboflow : **[UAV-SAR-Human-Detection-Dataset](https://universe.roboflow.com/hamzaghitri/uav-sar-human-detection-dataset)**
 
 <p align="center">
-  <a href="https://universe.roboflow.com/neptunet-bewas/uav-sar-human-detection-dataset">
+  <a href="https://universe.roboflow.com/hamzaghitri/uav-sar-human-detection-dataset">
     <img src="https://app.roboflow.com/images/download-dataset-badge.svg"/>
   </a>
 </p>
@@ -290,7 +290,7 @@ detections = detector.detect(frame)
 if detections:
     lat, lon = get_real_coords(
         bbox_center    = detections[0]["center"],
-        drone_position = (50.2648, 19.0237, 30),   # (lat, lon, altitude_m)
+        drone_position = (50.1234, 19.5678, 30),   # (lat, lon, altitude_m)
         drone_heading  = 129,                        # degrees, 0 = North
         gimbal_pitch   = 0,                          # 0 = nadir, -45 = oblique
         camera_config  = {
@@ -305,10 +305,76 @@ An interactive walkthrough is available in [`notebooks/UAV_SAR_Demo.ipynb`](note
 
 ---
 
+## C++ Embedded Runtime Skeleton
+
+AlienSight also includes a lightweight **C++ embedded runtime skeleton** that demonstrates how the framework-level processing logic can be expressed in a deployment-oriented structure.
+
+This component reproduces the same high-level workflow used throughout the AlienSight pipeline:
+
+```text
+UAV telemetry + detection input
+                ↓
+C++ AlienSight runtime logic
+                ↓
+Geolocation estimation
+                ↓
+Alert decision logic
+                ↓
+System-level output
+```
+
+The C++ runtime does **not** perform neural network inference, UAV flight control, autonomous navigation, sensor fusion, or full onboard deployment. It is provided only as a clean embedded-style prototype illustrating the core processing flow of the AlienSight framework.
+
+### Included C++ Scenarios
+
+Each CSV scenario represents a simplified UAV-SAR mission sequence and demonstrates how the runtime reacts to different detection and alerting conditions.
+
+| Scenario | Purpose | File |
+|---|---|---|
+| No detection | UAV patrol with no human detections | `cpp_runtime/examples/scenario_01_no_detection.csv` |
+| Nadir detection | Human detected under nadir camera view | `cpp_runtime/examples/scenario_02_person_detected_nadir.csv` |
+| Oblique detection | Human detected under oblique camera view | `cpp_runtime/examples/scenario_03_person_detected_oblique.csv` |
+| Alert triggered | Detection, geolocation, and rescue alert generation | `cpp_runtime/examples/scenario_04_alert_triggered.csv` |
+
+### Build and Run
+
+```bash
+cd cpp_runtime
+mkdir build
+cd build
+cmake ..
+cmake --build .
+```
+
+Run an example scenario:
+
+```bash
+./aliensight_runtime ../examples/scenario_04_alert_triggered.csv
+```
+
+### C++ Runtime Files
+
+| Artifact | Location |
+|---|---|
+| C++ runtime documentation | `cpp_runtime/README.md` |
+| CMake build file | `cpp_runtime/CMakeLists.txt` |
+| Runtime header | `cpp_runtime/include/aliensight_runtime.hpp` |
+| Runtime implementation | `cpp_runtime/src/aliensight_runtime.cpp` |
+| Runtime entry point | `cpp_runtime/src/main.cpp` |
+| Example CSV scenarios | `cpp_runtime/examples/` |
+
+This C++ runtime skeleton complements the Python implementation by showing how AlienSight's detection, geolocation, and alerting workflow can be represented in a lightweight embedded-friendly structure.
+
+---
+
 ## Repository Structure
 
 ```
 AlienSight/
+├── assets/                 <- Figures and media for this README
+│
+├── poster/
+│
 ├── src/
 │   ├── main_offline.py     <- Offline pipeline: DJI video + SRT file
 │   ├── main_live.py        <- Live pipeline: camera + serial GPS
@@ -338,7 +404,20 @@ AlienSight/
 │   ├── best_model_results_summary.png
 │   └── three_models_results_summary.png
 │
-├── assets/                 <- Figures and media for this README
+├── cpp_runtime/
+│   ├── README.md
+│   ├── CMakeLists.txt
+│   ├── include/
+│   │   └── aliensight_runtime.hpp
+│   ├── src/
+│   │   ├── aliensight_runtime.cpp
+│   │   └── main.cpp
+│   └── examples/
+│       ├── scenario_01_no_detection.csv
+│       ├── scenario_02_person_detected_nadir.csv
+│       ├── scenario_03_person_detected_oblique.csv
+│       └── scenario_04_alert_triggered.csv
+│
 ├── config.yaml.template    <- Configuration template
 ├── requirements.txt
 └── README.md
@@ -362,7 +441,7 @@ If you use this work in your research, please cite:
 
 ```bibtex
 @article{ghitri2026aliensight,
-  title   = {UAV-Based Human Detection and Geolocation for Search and Rescue},
+  title   = {A Lightweight UAV-Based SAR System for Human Detection and Monocular Geolocation},
   author  = {Ghitri, Hamza},
   year    = {2026},
   note    = {arXiv preprint (coming soon)}
