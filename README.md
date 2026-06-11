@@ -444,7 +444,7 @@ If you use this work in your research, please cite:
   title   = {A Lightweight UAV-Based SAR System for Human Detection and Monocular Geolocation},
   author  = {Ghitri, Hamza},
   year    = {2026},
-  note    = {arXiv preprint (coming soon)}
+  note    = {engrXiv preprint (coming soon)}
 }
 ```
 
