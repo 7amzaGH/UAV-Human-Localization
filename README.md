@@ -15,7 +15,7 @@
 
 <br/>
 
-📄 **Preprint Coming Soon** &nbsp;·&nbsp; 📦 [Dataset (Roboflow)](https://universe.roboflow.com/hamzaghitri/uav-sar-human-detection-dataset) &nbsp;·&nbsp; 🚀 [GitHub Repository](https://github.com/7amzaGH/UAV-SAR-Human-Detection-and-Geolocation)
+📄 [Preprint (DOI)](https://doi.org/10.31224/7303) · 📦 [Dataset (Roboflow)](https://universe.roboflow.com/hamzaghitri/uav-sar-human-detection-dataset) · 🚀 [GitHub Repository](https://github.com/7amzaGH/UAV-SAR-Human-Detection-and-Geolocation)
 
 <a href="poster/AlienSight poster.pdf">
   <img src="poster/aliensight_poster.png" alt="AlienSight Research Poster" width="850"/>
@@ -440,12 +440,15 @@ AlienSight/
 If you use this work in your research, please cite:
 
 ```bibtex
-@article{ghitri2026aliensight,
-  title   = {A Lightweight UAV-Based SAR System for Human Detection and Monocular Geolocation},
-  author  = {Ghitri, Hamza},
-  year    = {2026},
-  note    = {engrXiv preprint (coming soon)}
+@misc{ghitri2026aliensight,
+title   = {A Lightweight UAV-Based SAR System for Human Detection and Monocular Geolocation},
+author  = {Ghitri, Hamza},
+year    = {2026},
+doi     = {10.31224/7303},
+url     = {https://doi.org/10.31224/7303},
+note    = {Engineering Archive (EngrXiv) preprint}
 }
+
 ```
 
 ---
